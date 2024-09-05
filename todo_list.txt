@@ -1,0 +1,7 @@
+editor tabella
+
+sistema circolari miur per regione
+
+inserire regioni e comuni a mano
+
+inserire hosting a mano
