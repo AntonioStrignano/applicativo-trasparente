@@ -2,7 +2,6 @@ package it.trasp.app.model;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -44,21 +43,8 @@ public class User {
 	@Column(name = "flag_attivo")
 	private Boolean isAttivo;
 
-	@OneToMany(mappedBy = "userDoc")
-	@JsonBackReference
-	private List<Documento> documenti;
-	
-	@OneToMany(mappedBy = "userScuola")
-	@JsonBackReference
-	private List<Scuola> scuoleUser;
-
-	public List<Scuola> getScuole() {
-		return scuoleUser;
-	}
-
-	public void setScuole(List<Scuola> scuole) {
-		this.scuoleUser = scuole;
-	}
+	@OneToMany(mappedBy = "userRecord")
+	private List<Pubblicazioni> pubblicazioni;
 
 	// GETTER E SETTER
 	public Integer getId() {
@@ -101,12 +87,12 @@ public class User {
 		this.isAttivo = isAttivo;
 	}
 
-	public List<Documento> getDocumenti() {
-		return documenti;
+	public List<Pubblicazioni> getPubblicazioni() {
+		return pubblicazioni;
 	}
 
-	public void setDocumenti(List<Documento> documenti) {
-		this.documenti = documenti;
+	public void setPubblicazioni(List<Pubblicazioni> pubblicazioni) {
+		this.pubblicazioni = pubblicazioni;
 	}
 
 }

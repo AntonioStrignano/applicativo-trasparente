@@ -1,6 +1,5 @@
 package it.trasp.app.model;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -25,11 +24,11 @@ public class Documento {
 	@Column(name = "id")
 	private Integer id;
 
-	@Column(name="titolo_record", nullable = false, columnDefinition = "TINYTEXT")
+	@Column(name = "titolo_record", nullable = false, columnDefinition = "TINYTEXT")
 	@NotBlank(message = "Inserisci un titolo.")
 	private String titoloRecord;
 
-	@Column(name="file_documento", columnDefinition = "MEDIUMTEXT")
+	@Column(name = "file_documento", columnDefinition = "MEDIUMTEXT")
 	private String fileDocumento;
 
 	@Column(name = "titolo_frontend", columnDefinition = "TINYTEXT")
@@ -37,12 +36,6 @@ public class Documento {
 
 	@Column(name = "tag_anno", columnDefinition = "VARCHAR(30)")
 	private String tagAnno;
-
-	@Column(name = "data_pubblicazione", nullable = false)
-	private LocalDateTime dataPubblicazione;
-
-	@Column(name = "data_modifica", nullable = false)
-	private LocalDateTime dataModifica;
 
 	@Column(name = "contenuto_testo", columnDefinition = "MEDIUMTEXT")
 	private String contenutoTesto;
@@ -61,14 +54,70 @@ public class Documento {
 	@NotNull(message = "Seleziona una scuola.")
 	private Scuola scuola;
 
-	@ManyToOne
-	@JoinColumn(name = "id_utente")
-	private User userDoc;
-
 	@ManyToMany()
 	@JoinTable(name = "doc_annoscol", joinColumns = @JoinColumn(name = "id_documento"), inverseJoinColumns = @JoinColumn(name = "id_annoscol"))
 	@NotNull(message = "Seleziona almeno un anno scolastico.")
 	private List<AnnoScolastico> anniScolastici;
+
+	@ManyToOne
+	@JoinColumn(name = "id_stato")
+	private StatoDoc statoDoc;
+
+	public String getTitoloRecord() {
+		return titoloRecord;
+	}
+
+	public void setTitoloRecord(String titoloRecord) {
+		this.titoloRecord = titoloRecord;
+	}
+
+	public String getFileDocumento() {
+		return fileDocumento;
+	}
+
+	public void setFileDocumento(String fileDocumento) {
+		this.fileDocumento = fileDocumento;
+	}
+
+	public String getTitoloFrontend() {
+		return titoloFrontend;
+	}
+
+	public void setTitoloFrontend(String titoloFrontend) {
+		this.titoloFrontend = titoloFrontend;
+	}
+
+	public String getTagAnno() {
+		return tagAnno;
+	}
+
+	public void setTagAnno(String tagAnno) {
+		this.tagAnno = tagAnno;
+	}
+
+	public String getContenutoTesto() {
+		return contenutoTesto;
+	}
+
+	public void setContenutoTesto(String contenutoTesto) {
+		this.contenutoTesto = contenutoTesto;
+	}
+
+	public Tabella getTabellaDoc() {
+		return tabellaDoc;
+	}
+
+	public void setTabellaDoc(Tabella tabellaDoc) {
+		this.tabellaDoc = tabellaDoc;
+	}
+
+	public StatoDoc getStatoDoc() {
+		return statoDoc;
+	}
+
+	public void setStatoDoc(StatoDoc statoDoc) {
+		this.statoDoc = statoDoc;
+	}
 
 	public Integer getId() {
 		return id;
@@ -110,22 +159,6 @@ public class Documento {
 		this.tagAnno = tag_anno;
 	}
 
-	public LocalDateTime getData_pubblicazione() {
-		return dataPubblicazione;
-	}
-
-	public void setData_pubblicazione(LocalDateTime data_pubblicazione) {
-		this.dataPubblicazione = data_pubblicazione;
-	}
-
-	public LocalDateTime getData_modifica() {
-		return dataModifica;
-	}
-
-	public void setData_modifica(LocalDateTime data_modifica) {
-		this.dataModifica = data_modifica;
-	}
-
 	public String getContenuto_testo() {
 		return contenutoTesto;
 	}
@@ -156,14 +189,6 @@ public class Documento {
 
 	public void setScuola(Scuola scuola) {
 		this.scuola = scuola;
-	}
-
-	public User getUser() {
-		return userDoc;
-	}
-
-	public void setUser(User user) {
-		this.userDoc = user;
 	}
 
 	public List<AnnoScolastico> getAnniScolastici() {

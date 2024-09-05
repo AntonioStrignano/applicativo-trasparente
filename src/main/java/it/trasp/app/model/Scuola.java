@@ -34,7 +34,7 @@ public class Scuola {
 
 	@Column(name = "commento", nullable = true)
 	private String commento;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_comune", nullable = false, columnDefinition = "INTEGER(4)")
 	@NotNull(message = "Seleziona un Comune.")
@@ -51,10 +51,34 @@ public class Scuola {
 	@ManyToMany
 	@JoinTable(name = "scuole_sezioni", joinColumns = @JoinColumn(name = "id_scuola"), inverseJoinColumns = @JoinColumn(name = "id_sezione"))
 	private List<Sezione> sezioni;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_utente")
-	private User userScuole;
+
+	@ManyToMany
+	@JoinTable(name = "scuole_users", joinColumns = @JoinColumn(name = "id_scuola"), inverseJoinColumns = @JoinColumn(name = "id_user"))
+	private List<User> users;
+
+	public String getCommento() {
+		return commento;
+	}
+
+	public void setCommento(String commento) {
+		this.commento = commento;
+	}
+
+	public Sito getSitoScuola() {
+		return sitoScuola;
+	}
+
+	public void setSitoScuola(Sito sitoScuola) {
+		this.sitoScuola = sitoScuola;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 
 	public List<Documento> getDocumentiScuola() {
 		return documentiScuola;
