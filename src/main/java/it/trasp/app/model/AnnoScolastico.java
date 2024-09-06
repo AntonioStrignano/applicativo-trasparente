@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name="anno_scolastico")
@@ -22,6 +23,7 @@ public class AnnoScolastico {
 	
 	@Column(name="anno_scolastico", nullable = false, columnDefinition = "CHAR(9)" )
 	@NotEmpty(message = "Inserisci un anno scolastico.")
+	@Pattern(regexp = "^\\d{4}/\\d{4}$", message = "Formato anno scolastico non valido. Deve essere YYYY/YYYY.")
 	private String annoScolastico;
 	
 	@ManyToMany(mappedBy="anniScolastici")
