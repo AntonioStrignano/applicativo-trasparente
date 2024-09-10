@@ -53,6 +53,14 @@ public class GruppoCategoria {
 	public void setCategorie(List<Categoria> categorie) {
 		this.categorie = categorie;
 	}
+
+	public Integer getPosizione() {
+		return posizione;
+	}
+
+	public void setPosizione(Integer posizione) {
+		this.posizione = posizione;
+	}
 	
 	
 	

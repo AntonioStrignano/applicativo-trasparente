@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.validation.Valid;
@@ -26,7 +27,7 @@ public class AnnoScolasticoController {
 
 	// post
 	@PostMapping("/create")
-	public String createAnno(@Valid @ModelAttribute("annoNew") AnnoScolastico annoNew, Model model,
+	public String createAnno(@Valid @ModelAttribute("annoNew") AnnoScolastico annoNew,
 			BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
@@ -49,19 +50,34 @@ public class AnnoScolasticoController {
 	}
 
 	// ----- modifica anno scolastico
-	@GetMapping("/update")
-	public String editAnno() {
+	@GetMapping("{id}/update")
+	public String editAnno(Model model, @PathVariable ("id") Integer id) {
+		
+		model.addAttribute("anno", annoScolRepo.getReferenceById(id));
+		
 		return "/annoscol/edit";
 	}
 
-	@PostMapping("/update")
-	public String updateAnno() {
+	@PostMapping("{id}/update")
+	public String updateAnno(@Valid @ModelAttribute("anno") AnnoScolastico anno,  BindingResult bindingResult) {
+		
+		
+		if (bindingResult.hasErrors()) {
+			return "/annoscol/edit";
+		}
+		
+		annoScolRepo.save(anno);
+
 		return "redirect:/anno-scolastico";
 	}
 
 	// ----- elimina anno scolastico
-	@PostMapping("/delete")
-	public String deleteAnno() {
+	@PostMapping("{id}/delete")
+	public String deleteAnno(@PathVariable("id") Integer id) {
+		
+		annoScolRepo.getReferenceById(id).setDocumenti(null);
+		annoScolRepo.deleteById(id);
+		
 		return "redirect:/anno-scolastico";
 	}
 

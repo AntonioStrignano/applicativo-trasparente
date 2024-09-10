@@ -5,3 +5,5 @@ sistema circolari miur per regione
 inserire regioni e comuni a mano
 
 inserire hosting a mano
+
+fix errori anni scolastici in DOM (inchioda(vuol dire che funziona))
