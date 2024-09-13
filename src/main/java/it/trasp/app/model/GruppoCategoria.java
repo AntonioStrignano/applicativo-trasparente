@@ -2,6 +2,9 @@ package it.trasp.app.model;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import it.trasp.app.repository.GruppoCategoriaRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,22 +15,22 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name="gruppo_categoria")
+@Table(name = "gruppo_categoria")
 public class GruppoCategoria {
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-	
-	@Column(name="nome_gruppo", nullable = false, unique = true)
+
+	@Column(name = "nome_gruppo", nullable = false, unique = true)
 	private String nomeGruppo;
-	
-	@Column(name="posizione", nullable = false, unique = true, columnDefinition = "INTEGER(2)", insertable = true, updatable = true)
-	@NotBlank(message = "Seleziona una posizione.")
+
+	@Column(name = "posizione", unique = true, columnDefinition = "INTEGER(2)", insertable = true, updatable = true)
 	private Integer posizione;
-	
-	@OneToMany(mappedBy="gruppoCategoria")
+
+	@OneToMany(mappedBy = "gruppoCategoria")
 	private List<Categoria> categorie;
 
 	public Integer getId() {
@@ -61,7 +64,5 @@ public class GruppoCategoria {
 	public void setPosizione(Integer posizione) {
 		this.posizione = posizione;
 	}
-	
-	
-	
+
 }
