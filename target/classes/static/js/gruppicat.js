@@ -1,14 +1,18 @@
-// Questo è un commento in JavaScript
-console.log("Hello, world!");
 document.addEventListener("DOMContentLoaded", function() {
-    const modificaButton = document.getElementById("modificaButton");
-    const myForm = document.getElementById("myForm");
+	const buttons = document.querySelectorAll(".modificaButton");
 
-    modificaButton.addEventListener("click", function() {
-        if (myForm.style.display === "none") {
-            myForm.style.display = "block";
-        } else {
-            myForm.style.display = "none";
-        }
-    });
+	buttons.forEach(button => {
+		button.addEventListener("click", function() {
+			const id = this.id.replace("modificaButton", "");
+			const form = document.getElementById(`myForm${id}`);
+
+			if (form.style.visibility === "hidden") {
+				form.style.visibility = "visible";
+				form.style.height = "auto";
+			} else {
+				form.style.visibility = "hidden";
+				form.style.height = 0;
+			}
+		});
+	});
 });

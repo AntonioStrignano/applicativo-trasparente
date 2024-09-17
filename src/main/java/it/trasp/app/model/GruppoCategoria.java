@@ -2,9 +2,7 @@ package it.trasp.app.model;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
-import it.trasp.app.repository.GruppoCategoriaRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "gruppo_categoria")

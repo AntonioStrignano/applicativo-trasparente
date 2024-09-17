@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import it.trasp.app.model.Categoria;
+import it.trasp.app.model.FormText;
 import it.trasp.app.model.GruppoCategoria;
+import it.trasp.app.repository.CategoriaRepository;
 import it.trasp.app.repository.GruppoCategoriaRepository;
 import jakarta.validation.Valid;
 
@@ -23,6 +26,9 @@ public class GruppoCategoriaController {
 
 	@Autowired
 	GruppoCategoriaRepository gruppoCatRepo;
+	
+	@Autowired
+	CategoriaRepository cateRepo;
 
 	// create
 	@PostMapping("/create")
@@ -50,6 +56,8 @@ public class GruppoCategoriaController {
 		model.addAttribute("newGruppo", newGruppo);
 		Integer nGruppi = gruppoCatRepo.findAll().size();
 		model.addAttribute("nGruppi", nGruppi);
+		FormText nomeUpdate = new FormText();
+		model.addAttribute("nomeUpdate", nomeUpdate);
 
 		return "/gruppi/index";
 	}
@@ -57,21 +65,16 @@ public class GruppoCategoriaController {
 	// update
 
 	@PostMapping("{id}/update")
-	public String gruppoUpdate(Model model, @ModelAttribute("nomeUpdate") String nomeUpdate, @PathVariable ("id") Integer id ,
-			BindingResult bindingResult) {
+	public String gruppoUpdate(Model model, @ModelAttribute("nomeUpdate") FormText nomeUpdate,
+			@PathVariable("id") Integer id) {
 
 		GruppoCategoria gruppoUpdate = gruppoCatRepo.findById(id).get();
-		gruppoUpdate.setNomeGruppo(nomeUpdate);
-		
-		if (bindingResult.hasErrors()) {
-			return "/gruppi/index";
-		} else {
-			
+		gruppoUpdate.setNomeGruppo(nomeUpdate.getFormValue());
+
 			gruppoCatRepo.save(gruppoUpdate);
 
-			return "redirect:/gruppi-categoria";
+			return "redirect:/gruppi-categorie";
 		}
-	}
 
 	// up
 	@PostMapping("/{id}/up")
@@ -119,5 +122,16 @@ public class GruppoCategoriaController {
 	}
 
 	// delete
+	@PostMapping("{id}/delete")
+	public String deleteGruppo(@PathVariable("id") Integer id) {
+		
+		for (Categoria categoria : gruppoCatRepo.findById(id).get().getCategorie()) {
+			cateRepo.deleteById(categoria.getId());
+		}
+		gruppoCatRepo.deleteById(id);
+				
+		
+		return"redirect:/gruppi-categorie";
+	}
 
 }
