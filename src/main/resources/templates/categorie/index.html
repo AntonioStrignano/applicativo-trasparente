@@ -6,11 +6,18 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<style>
+		form>* {
+			display: block;
+			padding-block-end: 5px;
+			margin-block-end: 5px;
+		}
+	</style>
 </head>
 
 <body>
 	<div class="container">
-		<h1>categorie</h1>
+		<h1>Categorie</h1>
 		<div class="d-flex">
 			<div class="flex-grow-1">
 				<table class="table w-auto">
@@ -18,11 +25,14 @@
 						<tr>
 							<th>Posizione</th>
 							<th>Nome Gruppo</th>
+							<th>Categorie</th>
 							<th>Azioni</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="gruppo:${listaGruppi}">
+
+							<!-- POSIZIONE -->
 							<td>
 								<div class="d-flex justify-content-between">
 									<div class="flex-grow-0  px-2">
@@ -44,9 +54,12 @@
 									</div>
 								</div>
 							</td>
+
+							<!-- NOME GRUPPO -->
 							<td>
 								<p th:text="${gruppo.nomeGruppo}"></p>
-								<div class="myForm" th:id="|myForm${gruppo.id}|" style="visibility: hidden; height: 0px;">
+								<div class="myForm" th:id="|myForm${gruppo.id}|"
+									style="visibility: hidden; height: 0px;">
 									<form id="updateGruppo" method="post"
 										th:action="@{|/gruppi-categorie/${gruppo.id}/update|}"
 										th:object="${nomeUpdate}">
@@ -62,6 +75,21 @@
 									</form>
 								</div>
 							</td>
+
+							<!-- LISTA CATEGORIE -->
+							<td>
+								<div class="list-group">
+									<button class="list-group-item list-group-item-action"
+										th:each="categoria:${gruppo.getCategorie()}"><a
+											th:href="@{|/categorie/${categoria.id}|}"
+											th:text="${categoria.nomeCategoria}">
+										</a>
+
+									</button>
+								</div>
+							</td>
+
+							<!-- AZIONI -->
 							<td>
 								<div class="d-flex">
 
@@ -84,10 +112,13 @@
 			</div>
 
 			<div class="container">
-				<h2>Nuovo gruppo categorie</h2>
-				<form method="post" th:object="${newGruppo}" th:action="@{gruppi-categorie/create}">
-					<input type="text" th:field="*{nomeGruppo}">
-					<input type="hidden" th:field="*{posizione}">
+				<h2>Nuova categoria</h2>
+				<form method="post" th:object="${newCate}" th:action="@{/categorie/create}" class="col">
+					<input type="text" th:field="*{nomeCategoria}">
+					<select name="gruppo-categoria" th:field="*{gruppoCategoria}">
+						<option th:each="gruppo:${listaGruppi}" th:value="${gruppo.id}" th:text="${gruppo.nomeGruppo}">
+						</option>
+					</select>
 					<div th:if="${#fields.hasAnyErrors()}">
 						<ul>
 							<il th:each="err : ${#fields.allErrors}" th:text="${err}"></il>

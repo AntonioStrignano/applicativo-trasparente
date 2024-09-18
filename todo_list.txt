@@ -7,3 +7,7 @@ inserire regioni e comuni a mano
 inserire hosting a mano
 
 fix errori anni scolastici in DOM (inchioda(vuol dire che funziona))
+
+pagina categorie: 	elenco documenti
+					- se sei admin, vedi la colonna nome scuola
+					- se non sei admin, vedi solo documenti della tua scuola e non vedi la colonna nomeScuola 
