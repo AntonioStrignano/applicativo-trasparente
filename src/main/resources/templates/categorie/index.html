@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+	<title>Categorie</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+	<div class="container">
+		<h1>categorie</h1>
+		<div class="d-flex">
+			<div class="flex-grow-1">
+				<table class="table w-auto">
+					<thead>
+						<tr>
+							<th>Posizione</th>
+							<th>Nome Gruppo</th>
+							<th>Azioni</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="gruppo:${listaGruppi}">
+							<td>
+								<div class="d-flex justify-content-between">
+									<div class="flex-grow-0  px-2">
+										<p th:text="${gruppo.posizione}" class="text-center"></p>
+									</div>
+									<div class="d-flex justify-content-between flex-grow-1 align-items-center">
+										<div class=" px-1">
+											<form method="post" th:action="@{|/gruppi-categorie/${gruppo.id}/up|}"
+												th:unless="${gruppo.posizione}==1">
+												<button type="submit" class="btn btn-primary mb-3">Su</button>
+											</form>
+										</div>
+										<div class=" px-1">
+											<form method="post" th:action="@{|/gruppi-categorie/${gruppo.id}/down|}"
+												th:unless="${gruppo.posizione}==${nGruppi}">
+												<button type="submit" class="btn btn-primary mb-3">Giù</button>
+											</form>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td>
+								<p th:text="${gruppo.nomeGruppo}"></p>
+								<div class="myForm" th:id="|myForm${gruppo.id}|" style="visibility: hidden; height: 0px;">
+									<form id="updateGruppo" method="post"
+										th:action="@{|/gruppi-categorie/${gruppo.id}/update|}"
+										th:object="${nomeUpdate}">
+										<input type="text" th:field="*{formValue}">
+										<div th:if="${#fields.hasAnyErrors()}">
+											<ul class="list-group">
+												<il th:each="err : ${#fields.allErrors}" th:text="${err}"
+													class="alert alert-primary list-group-item">
+												</il>
+											</ul>
+										</div>
+										<button type="submit" class="btn btn-primary mb-3">Modifica</button>
+									</form>
+								</div>
+							</td>
+							<td>
+								<div class="d-flex">
+
+									<button class="btn btn-primary modificaButton" th:id="|modificaButton${gruppo.id}|"
+										type="button">Modifica</button>
+									<form method="post" id="delete-gruppo"
+										th:action="@{|/gruppi-categorie/${gruppo.id}/delete|}">
+										<button class="btn btn-danger ml-3" type="submit" id="submitButton"
+											th:data-confirm-delete="|Sei sicuro di voler cancellare il gruppo di categorie e tutte le sotto-categorie?|"
+											th:onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">
+											Elimina
+										</button>
+									</form>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+
+			<div class="container">
+				<h2>Nuovo gruppo categorie</h2>
+				<form method="post" th:object="${newGruppo}" th:action="@{gruppi-categorie/create}">
+					<input type="text" th:field="*{nomeGruppo}">
+					<input type="hidden" th:field="*{posizione}">
+					<div th:if="${#fields.hasAnyErrors()}">
+						<ul>
+							<il th:each="err : ${#fields.allErrors}" th:text="${err}"></il>
+						</ul>
+					</div>
+					<button type="submit" class="btn btn-primary mb-3">Salva</button>
+				</form>
+			</div>
+
+		</div>
+
+
+
+
+
+
+		<!-- SCRIPT BOOTSTRAP-->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+			integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+			crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+			crossorigin="anonymous"></script>
+		<script src="/js/gruppicat.js"></script>
+</body>
+
+</html>
