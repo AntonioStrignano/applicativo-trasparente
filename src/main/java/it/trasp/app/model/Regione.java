@@ -19,7 +19,7 @@ public class Regione {
 	@Column(name = "id")
 	private Integer id;
 	
-	@Column(name="nome_regione", nullable = false, columnDefinition = "VARCHAR(19)", unique = true)
+	@Column(name="nome_regione", nullable = false, columnDefinition = "VARCHAR(21)", unique = true)
 	private String nomeRegione;
 	
 	@OneToMany(mappedBy="regione")

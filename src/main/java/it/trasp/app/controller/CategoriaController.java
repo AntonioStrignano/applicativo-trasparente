@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,6 +17,7 @@ import it.trasp.app.model.Categoria;
 import it.trasp.app.model.FormText;
 import it.trasp.app.model.GruppoCategoria;
 import it.trasp.app.repository.CategoriaRepository;
+import it.trasp.app.repository.DocumentoRepository;
 import it.trasp.app.repository.GruppoCategoriaRepository;
 import jakarta.validation.Valid;
 
@@ -28,6 +30,9 @@ public class CategoriaController {
 
 	@Autowired
 	GruppoCategoriaRepository gruppoCateRepo;
+	
+	@Autowired
+	DocumentoRepository docRepo;
 
 	// create
 	@PostMapping("/create")
@@ -64,6 +69,16 @@ public class CategoriaController {
 		
 
 		return "/categorie/index";
+	}
+	
+	
+	@GetMapping("/{id}")
+	public String readCate(@PathVariable("id") Integer id, Model model) {
+		
+		model.addAttribute("categoria", cateRepo.findById(id).get());
+		model.addAttribute("listaDoc", docRepo.findAll());
+		
+		return"/categorie/dettaglio";
 	}
 
 	// update
