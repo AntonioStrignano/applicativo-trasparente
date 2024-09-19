@@ -12,7 +12,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -33,10 +32,10 @@ public class Comune {
 	@NotBlank(message = "Inserisci la provincia per esteso del comune.")
 	private String provincia;
 	
-	@Column(name="cap", nullable = false, unique = true, columnDefinition = "INTEGER(5)")
-	@NotEmpty(message = "Inserisci il CAP del comune")
+	@Column(name="cap", nullable = false, columnDefinition = "CHAR(5)")
+	@NotBlank(message = "Inserisci il CAP del comune")
 	@Size(min = 5, max = 5, message = "Inserisci un numero composto da 5 cifre.")
-	private Integer cap;
+	private String cap;
 	
 	@ManyToOne
 	@JoinColumn(name="id_regione", nullable = false, columnDefinition = "INTEGER(2)")
@@ -78,11 +77,11 @@ public class Comune {
 		this.provincia = provincia;
 	}
 
-	public Integer getCap() {
+	public String getCap() {
 		return cap;
 	}
 
-	public void setCap(Integer cap) {
+	public void setCap(String cap) {
 		this.cap = cap;
 	}
 
